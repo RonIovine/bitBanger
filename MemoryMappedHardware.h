@@ -17,10 +17,16 @@ class MemoryMappedHardware8
 {
   public:
 
+    // address width in bits
     enum {ADDRESS_WIDTH = sizeof(uint8_t)*8};
 
+    // constructor for a RAM based buffer address pointer
     MemoryMappedHardware8(const char *name_, void *address_, unsigned size_) : _address((uint8_t *)address_), _size(size_){strcpy(_name, name_);};
+
+    // constructor for a mapped HW address via a hardcoded address value
     MemoryMappedHardware8(const char *name_, unsigned long address_, unsigned size_) : _address((uint8_t *)address_), _size(size_){strcpy(_name, name_);};
+
+    // destructor
     ~MemoryMappedHardware8(){};
 
     // get/set bitfield values
@@ -48,10 +54,16 @@ class MemoryMappedHardware16
 {
   public:
 
+    // address width in bits
     enum {ADDRESS_WIDTH = sizeof(uint16_t)*8};
 
+    // constructor for a RAM based buffer address pointer
     MemoryMappedHardware16(const char *name_, void *address_, unsigned size_) : _address((uint16_t *)address_), _size(size_){strcpy(_name, name_);};
+
+    // constructor for a mapped HW address via a hardcoded address value
     MemoryMappedHardware16(const char *name_, unsigned long address_, unsigned size_) : _address((uint16_t *)address_), _size(size_){strcpy(_name, name_);};
+
+    // destructor
     ~MemoryMappedHardware16(){};
 
     // get/set bitfield values
@@ -79,10 +91,16 @@ class MemoryMappedHardware32
 {
   public:
 
+    // address width in bits
     enum {ADDRESS_WIDTH = sizeof(uint32_t)*8};
 
+    // constructor for a RAM based buffer address pointer
     MemoryMappedHardware32(const char *name_, void *address_, unsigned size_) : _address((uint32_t *)address_), _size(size_){strcpy(_name, name_);};
+
+    // constructor for a mapped HW address via a hardcoded address value
     MemoryMappedHardware32(const char *name_, unsigned long address_, unsigned size_) : _address((uint32_t *)address_), _size(size_){strcpy(_name, name_);};
+
+    // destructor
     ~MemoryMappedHardware32(){};
 
     // get/set bitfield values

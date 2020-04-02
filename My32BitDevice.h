@@ -7,6 +7,7 @@
 //
 // example derived class for a specific 32-bit memory mapped device, we
 // need to know the memory mapped address and the size of the mapped space
+// in 32-bit units
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,11 +15,11 @@ class My32BitDevice : public MemoryMappedHardware32
 {
   public:
 
-    // setup memory mapped device base address and size
+    // setup memory mapped device base address and size in 32-bit units
     enum Device
     {
       ADDRESS = 0x08000000,
-      SIZE    = 8
+      SIZE    = 8   // in 32-bit units
     };
 
     My32BitDevice() : MemoryMappedHardware32("My32BitDevice", ADDRESS, SIZE){};

@@ -7,6 +7,7 @@
 //
 // example derived class for a specific 8-bit memory mapped device, we
 // need to know the memory mapped address and the size of the mapped space
+// in 8-bit units
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,11 +15,11 @@ class My8BitDevice : public MemoryMappedHardware8
 {
   public:
 
-    // setup memory mapped device base address and size
+    // setup memory mapped device base address and size in 8-bit units
     enum Device
     {
       ADDRESS = 0x08000000,
-      SIZE    = 8
+      SIZE    = 8   // in 8-bit units
     };
 
     My8BitDevice() : MemoryMappedHardware8("My8BitDevice", ADDRESS, SIZE){};

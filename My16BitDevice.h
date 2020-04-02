@@ -7,6 +7,7 @@
 //
 // example derived class for a specific 16-bit memory mapped device, we
 // need to know the memory mapped address and the size of the mapped space
+// in 16-bit units
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,11 +15,11 @@ class My16BitDevice : public MemoryMappedHardware16
 {
   public:
 
-    // setup memory mapped device base address and size
+    // setup memory mapped device base address and size in 16-bit units
     enum Device
     {
       ADDRESS = 0x08000000,
-      SIZE    = 8
+      SIZE    = 8   // in 16-bit units
     };
 
     My16BitDevice() : MemoryMappedHardware16("My16BitDevice", ADDRESS, SIZE){};

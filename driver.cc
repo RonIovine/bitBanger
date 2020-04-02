@@ -13,7 +13,7 @@
 //
 // g++ -I . driver.cc -o driver
 //
-// and then run the executable 'driver' at the command line and follow the prompts
+// then run the executable 'driver' at the command line and follow the prompts
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -21,7 +21,7 @@
 void dumpMemory8(uint8_t *address_, unsigned length_)
 {
   printf("\n");
-  printf("8-bit device:\n");
+  printf("8-bit device raw hex dump:\n");
   printf("\n");
   for (unsigned i = 0; i < length_; i++)
   {
@@ -42,7 +42,7 @@ void dumpMemory8(uint8_t *address_, unsigned length_)
 void dumpMemory16(uint16_t *address_, unsigned length_)
 {
   printf("\n");
-  printf("16-bit device:\n");
+  printf("16-bit device raw hex dump:\n");
   printf("\n");
   for (unsigned i = 0; i < length_; i++)
   {
@@ -63,7 +63,7 @@ void dumpMemory16(uint16_t *address_, unsigned length_)
 void dumpMemory32(uint32_t *address_, unsigned length_)
 {
   printf("\n");
-  printf("32-bit device:\n");
+  printf("32-bit device raw hex dump:\n");
   printf("\n");
   for (unsigned i = 0; i < length_; i++)
   {
@@ -130,6 +130,7 @@ int main(int argc, char *argv[])
   for (;;)
   {
 
+    // do a hex dump of our raw RAM bases memory buffers
     dumpMemory8(buffer8, MAX_MEMORY_MAPPED_SIZE);
     dumpMemory16(buffer16, MAX_MEMORY_MAPPED_SIZE);
     dumpMemory32(buffer32, MAX_MEMORY_MAPPED_SIZE);
