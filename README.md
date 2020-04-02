@@ -1,9 +1,6 @@
 # bitBanger
 **A generic, endian agnostic, bit/register banger for memory mapped HW devices**
 
-[Overview](#overview)<br>
-[Building](#building)<br>
-
 <a name="overview"></a>
 ### Overview
 This package contians code and examples for creating simple device drivers
