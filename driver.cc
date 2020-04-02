@@ -103,9 +103,9 @@ int main(int argc, char *argv[])
   unsigned highOrderBit = 0;
   unsigned bit = 0;
   unsigned value = 0;
-  uint8_t buffer8[MAX_MEMORY_MAPPED_SIZE];
-  uint16_t buffer16[MAX_MEMORY_MAPPED_SIZE];
-  uint32_t buffer32[MAX_MEMORY_MAPPED_SIZE];
+  uint8_t buffer8[MAX_MEMORY_MAPPED_SIZE] = {0};
+  uint16_t buffer16[MAX_MEMORY_MAPPED_SIZE] = {0};
+  uint32_t buffer32[MAX_MEMORY_MAPPED_SIZE] = {0};
   showEndian();
   // test our derived class examples instantiations
   My8BitDevice my8BitDevice;
@@ -121,9 +121,6 @@ int main(int argc, char *argv[])
   //my32BitDevice.set(MY_32BIT_REG2, 4);
   //my32BitDevice.set(MY_32BIT_REG0, MY_32BIT_REG0_BITFIELD1, 2);
   // instantiate our base classes using RAM based buffers for our address space
-  memset(buffer8, 0, sizeof(buffer8));
-  memset(buffer16, 0, sizeof(buffer16));
-  memset(buffer32, 0, sizeof(buffer32));
   MemoryMappedHardware8 device8("buffer8", buffer8, MAX_MEMORY_MAPPED_SIZE);
   MemoryMappedHardware16 device16("buffer16", buffer16, MAX_MEMORY_MAPPED_SIZE);
   MemoryMappedHardware32 device32("buffer32", buffer32, MAX_MEMORY_MAPPED_SIZE);
