@@ -3,6 +3,13 @@
 
 #include <MemoryMappedHardware.h>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// example derived class for a specific 16-bit memory mapped device, we
+// need to know the memory mapped address and the size of the mapped space
+//
+////////////////////////////////////////////////////////////////////////////////
+
 class My16BitDevice : public MemoryMappedHardware16
 {
   public:
@@ -32,7 +39,7 @@ class My16BitDevice : public MemoryMappedHardware16
 // keep everything together for clarity and readability
 
 // format for register macro is just <regOffset>
-// format for single bit bitfield macro is <bitNum>, <lowOrderBit>,<highOrderBit> format would also work provided both values are the same
+// format for single bit bitfield macro is <bitNum>, note: <lowOrderBit>,<highOrderBit> format would also work provided both values are the same
 // format for multi-bit bitfield macro is <lowOrderBit>,<highOrderBit>
 
 // register offsets

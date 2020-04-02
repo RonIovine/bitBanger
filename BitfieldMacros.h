@@ -4,6 +4,16 @@
 #include <stdio.h>
 #include <arpa/inet.h>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// This file includes macros that are designed to only work with the
+// MemoryMappedHardware classes, they were just put in this separate file
+// rather than that file for readability purposes
+//
+////////////////////////////////////////////////////////////////////////////////
+
+
+//simple endianess checker
 inline bool isBigEndian(void)
 {
   static uint8_t endian[2] = {0,1};
@@ -22,6 +32,7 @@ inline bool isBigEndian(void)
 #define SET_BITFIELD32(address, lowOrderBit, highOrderBit, value) (address = ntohl(((htonl(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
 #define GET_BITFIELD32(address, lowOrderBit, highOrderBit) return(((htonl(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
 
+// undefine this for performance
 #define ERROR_CHECKING 1
 #ifdef ERROR_CHECKING
 

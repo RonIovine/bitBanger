@@ -5,6 +5,18 @@
 #include <My16BitDevice.h>
 #include <My32BitDevice.h>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// this file is just an example test program that does the bit/register banging
+// in a RAM based buffers, to build this program use the following command line
+// command:
+//
+// g++ -I . driver.cc -o driver
+//
+// and then run the executable 'driver' at the command line and follow the prompts
+//
+////////////////////////////////////////////////////////////////////////////////
+
 // simple 8-bit memory dumper
 void dumpMemory8(uint8_t *address_, unsigned length_)
 {

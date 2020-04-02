@@ -3,6 +3,13 @@
 
 #include <MemoryMappedHardware.h>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// example derived class for a specific 32-bit memory mapped device, we
+// need to know the memory mapped address and the size of the mapped space
+//
+////////////////////////////////////////////////////////////////////////////////
+
 class My32BitDevice : public MemoryMappedHardware32
 {
   public:
@@ -21,8 +28,8 @@ class My32BitDevice : public MemoryMappedHardware32
 
 };
 
-// define all the registers and their offsets from the base address
-// and any bitfields those registers might have here
+// define all the registers and their offsets from the base address and
+// any bitfields those registers might have here based on the4 HW spec
 
 // since these are just #define macros, we can't take advantage of
 // the class namespace, so we do it the hard way with a unique prefix,
@@ -32,7 +39,7 @@ class My32BitDevice : public MemoryMappedHardware32
 // keep everything together for clarity and readability
 
 // format for register macro is just <regOffset>
-// format for single bit bitfield macro is <bitNum>, <lowOrderBit>,<highOrderBit> format would also work provided both values are the same
+// format for single bit bitfield macro is <bitNum>, note: <lowOrderBit>,<highOrderBit> format would also work provided both values are the same
 // format for multi-bit bitfield macro is <lowOrderBit>,<highOrderBit>
 
 // register offsets

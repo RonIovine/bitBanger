@@ -3,6 +3,15 @@
 
 #include <BitfieldMacros.h>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// This module has the generic API for access  to memory mapped devices for
+// 8, 16, and 32 bit memory mapped HW devices, create derived classes for a
+// specific memory mapped HW device and add any functionality as needed, see
+// the example My8BitDevice.h, My16BitDevice.h, My32BitDevice.h for
+//
+////////////////////////////////////////////////////////////////////////////////
+
 // for 8-bit devices
 class MemoryMappedHardware8
 {
