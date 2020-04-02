@@ -5,7 +5,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// example derived class for a specific 8-bit memory mapped device, we
+// Example derived class for a specific 8-bit memory mapped device, we
 // need to know the memory mapped address and the size of the mapped space
 // in 8-bit units
 //
@@ -25,7 +25,8 @@ class My8BitDevice : public MemoryMappedHardware8
     My8BitDevice() : MemoryMappedHardware8("My8BitDevice", ADDRESS, SIZE){};
     ~My8BitDevice(){};
 
-    // add any device specific functionality member functions here
+    // add any device specific higher functionality member functions here,
+    // all the basic bit/register banging is provided by the base class
 
 };
 

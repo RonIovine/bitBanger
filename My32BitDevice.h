@@ -5,7 +5,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// example derived class for a specific 32-bit memory mapped device, we
+// Example derived class for a specific 32-bit memory mapped device, we
 // need to know the memory mapped address and the size of the mapped space
 // in 32-bit units
 //
@@ -25,7 +25,8 @@ class My32BitDevice : public MemoryMappedHardware32
     My32BitDevice() : MemoryMappedHardware32("My32BitDevice", ADDRESS, SIZE){};
     ~My32BitDevice(){};
 
-    // add any device specific functionality member functions here
+    // add any device specific higher functionality member functions here,
+    // all the basic bit/register banging is provided by the base class
 
 };
 

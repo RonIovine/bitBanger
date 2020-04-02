@@ -5,9 +5,9 @@
 ### Overview
 This package contians code and examples for creating simple device drivers
 for memory mapped HW devices.  It provices for generic, and endian agnostic
-bit banging and register banging.  The base class APIs will support 8, 16,
-and 32 bit memory mapped devices.  There are 3 example derived classes for
-each specific memory mapped HW device, My8BitDevice.h, My16BitDevice.h, and
+bit and register banging.  The base class APIs will support 8, 16, and 32
+bit memory mapped devices.  There are 3 example derived classes for each
+specific memory mapped HW device, My8BitDevice.h, My16BitDevice.h, and
 My32BitDevice.h.  There is also a demo program that shows the bit/register
 banging into a RAM based memory buffer.
 
