@@ -1,5 +1,8 @@
 # bitBanger
-A generic, endian agnostic, bit/register banger for memory mapped HW devices
+**A generic, endian agnostic, bit/register banger for memory mapped HW devices**
+
+[Overview](#overview)<br>
+[Building](#building)<br>
 
 <a name="overview"></a>
 ### Overview
@@ -17,6 +20,6 @@ To build the demo program, from this directory run:
 
 `$ g++ -I . driver.cc -o driver`
 
-and then run the executable 'driver' at the command line and follow the prompts
+Then run the executable 'driver' at the command line and follow the prompts
 
 
