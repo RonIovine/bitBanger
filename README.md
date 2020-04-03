@@ -13,7 +13,23 @@ based memory buffer.
 
 <a name="building"></a>
 ### Building
-To build the demo program, from this directory run:
+To build the demo program, from this directory run one of the following commands:
+
+Validate all register offsets, bitfield specifications, and value ranges,
+and let system determine endianess, this is the recommended compile option,
+remove ERROR_CHECKING option for max performance:
+
+`g++ -I . -DERROR_CHECKING driver.cc -o driver`
+
+Force big endian based bit banging, regardless of native system endianess:
+
+`g++ -I . -DFORCE_BIG_ENDIAN driver.cc -o driver`
+
+Force little endian based bit banging, regardless of native system endianess:
+
+`g++ -I . -DFORCE_LITTLE_ENDIAN driver.cc -o driver`
+
+No error checking, let system detect endianess, use for maximum performance:
 
 `$ g++ -I . driver.cc -o driver`
 

@@ -12,13 +12,62 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#if defined(FORCE_BIG_ENDIAN)
 
-//simple endianess checker
+// we force a big endian byte interpretation ourselves based on the compiler flag
+
+#define HTONS(n) (n)
+#define NTOHS(n) (n)
+#define HTONL(n) (n)
+#define NTOHL(n) (n)
+
+// simple endianess checker
+inline bool isBigEndian(void)
+{
+  return(true);
+}
+
+#elif defined(FORCE_LITTLE_ENDIAN)
+
+// we force a little endian byte interpretation ourselves based on the compiler flag
+
+#define HTONS(n) (((((uint16_t)(n) & 0xFF)) << 8) | (((uint16_t)(n) & 0xFF00) >> 8))
+#define NTOHS(n) (((((uint16_t)(n) & 0xFF)) << 8) | (((uint16_t)(n) & 0xFF00) >> 8))
+
+#define HTONL(n) (((((uint32_t)(n) & 0xFF)) << 24) | \
+                  ((((uint32_t)(n) & 0xFF00)) << 8) | \
+                  ((((uint32_t)(n) & 0xFF0000)) >> 8) | \
+                  ((((uint32_t)(n) & 0xFF000000)) >> 24))
+
+#define NTOHL(n) (((((uint32_t)(n) & 0xFF)) << 24) | \
+                  ((((uint32_t)(n) & 0xFF00)) << 8) | \
+                  ((((uint32_t)(n) & 0xFF0000)) >> 8) | \
+                  ((((uint32_t)(n) & 0xFF000000)) >> 24))
+
+// simple endianess checker
+inline bool isBigEndian(void)
+{
+  return(false);
+}
+
+#else
+
+// simple endianess checker
 inline bool isBigEndian(void)
 {
   static uint8_t endian[2] = {0,1};
   return(*(uint16_t *)endian == 1);
 }
+
+// no compiler flag for byte order, let the system decide
+
+#define HTONS(n) htons(n)
+#define NTOHS(n) ntohs(n)
+
+#define HTONL(n) htonl(n)
+#define NTOHL(n) ntohl(n)
+
+#endif
 
 // all these macros are designed to only work with the MemoryMappedHardware classes,
 // they were just put in a separate file rather than that file for readability purposes
@@ -27,14 +76,13 @@ inline bool isBigEndian(void)
 #define BITMASK(lowOrderBit, highOrderBit) (MAX_BITFIELD_VALUE(lowOrderBit, highOrderBit)<<lowOrderBit)
 #define SET_BITFIELD8(address, lowOrderBit, highOrderBit, value) (address = ((address & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit)))
 #define GET_BITFIELD8(address, lowOrderBit, highOrderBit) return(((address & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
-#define SET_BITFIELD16(address, lowOrderBit, highOrderBit, value) (address = ntohs(((htons(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
-#define GET_BITFIELD16(address, lowOrderBit, highOrderBit) return(((htons(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
-#define SET_BITFIELD32(address, lowOrderBit, highOrderBit, value) (address = ntohl(((htonl(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
-#define GET_BITFIELD32(address, lowOrderBit, highOrderBit) return(((htonl(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
+#define SET_BITFIELD16(address, lowOrderBit, highOrderBit, value) (address = NTOHS(((HTONS(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
+#define GET_BITFIELD16(address, lowOrderBit, highOrderBit) return(((HTONS(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
+#define SET_BITFIELD32(address, lowOrderBit, highOrderBit, value) (address = NTOHL(((HTONL(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
+#define GET_BITFIELD32(address, lowOrderBit, highOrderBit) return(((HTONL(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
 
 // undefine this for performance
-#define ERROR_CHECKING 1
-#ifdef ERROR_CHECKING
+#if defined(ERROR_CHECKING)
 
 // real error checking macros for debug/diagnostics
 #define SET_REGISTER_ERROR_CHECKING(register_) \
