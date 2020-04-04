@@ -13,7 +13,9 @@ based memory buffer.
 
 <a name="building"></a>
 ### Building
-To build the demo program, from this directory run one of the following commands:
+To build the demo program, from this directory run one of the following build
+commands then run the executable 'driver' at the command line and follow the
+prompts
 
 Validate all register offsets, bitfield specifications, and value ranges,
 and let system determine endianess, this is the recommended compile option,
@@ -32,7 +34,3 @@ Force little endian based bit banging, regardless of native system endianess:
 No error checking, let system detect endianess, use for maximum performance:
 
 `$ g++ -I . driver.cc -o driver`
-
-Then run the executable 'driver' at the command line and follow the prompts
-
-

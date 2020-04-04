@@ -8,8 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 // this file is just an example test program that does the bit/register banging
-// in a RAM based buffers, to build this program use one of the following command
-// line commands:
+// in a RAM based buffers, to build this program use one of the following build
+// commands then run the executable 'driver' at the command line and follow
+// the prompts
 //
 // Validate all register offsets, bitfield specifications, and value ranges,
 // and let system determine endianess, this is the recommended compile option,
@@ -28,8 +29,6 @@
 // no error checking, let system detect endianess, use for maximum performance:
 //
 // g++ -I . driver.cc -o driver
-//
-// then run the executable 'driver' at the command line and follow the prompts
 //
 ////////////////////////////////////////////////////////////////////////////////
 
