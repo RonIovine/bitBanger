@@ -74,12 +74,12 @@ inline bool isBigEndian(void)
 
 #define MAX_BITFIELD_VALUE(lowOrderBit, highOrderBit) (unsigned)((1<<(highOrderBit-lowOrderBit+1))-1)
 #define BITMASK(lowOrderBit, highOrderBit) (MAX_BITFIELD_VALUE(lowOrderBit, highOrderBit)<<lowOrderBit)
-#define SET_BITFIELD8(address, lowOrderBit, highOrderBit, value) (address = ((address & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit)))
-#define GET_BITFIELD8(address, lowOrderBit, highOrderBit) return(((address & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
-#define SET_BITFIELD16(address, lowOrderBit, highOrderBit, value) (address = NTOHS(((HTONS(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
-#define GET_BITFIELD16(address, lowOrderBit, highOrderBit) return(((HTONS(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
-#define SET_BITFIELD32(address, lowOrderBit, highOrderBit, value) (address = NTOHL(((HTONL(address) & ~BITMASK(lowOrderBit, highOrderBit)) | (value << lowOrderBit))))
-#define GET_BITFIELD32(address, lowOrderBit, highOrderBit) return(((HTONL(address) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
+#define SET_BITFIELD8(fullValue, lowOrderBit, highOrderBit, bitfieldValue) (fullValue = ((fullValue & ~BITMASK(lowOrderBit, highOrderBit)) | (bitfieldValue << lowOrderBit)))
+#define GET_BITFIELD8(fullValue, lowOrderBit, highOrderBit) return(((fullValue & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
+#define SET_BITFIELD16(fullValue, lowOrderBit, highOrderBit, bitfieldValue) (fullValue = NTOHS(((HTONS(fullValue) & ~BITMASK(lowOrderBit, highOrderBit)) | (bitfieldValue << lowOrderBit))))
+#define GET_BITFIELD16(fullValue, lowOrderBit, highOrderBit) return(((HTONS(fullValue) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
+#define SET_BITFIELD32(fullValue, lowOrderBit, highOrderBit, bitfieldValue) (fullValue = NTOHL(((HTONL(fullValue) & ~BITMASK(lowOrderBit, highOrderBit)) | (bitfieldValue << lowOrderBit))))
+#define GET_BITFIELD32(fullValue, lowOrderBit, highOrderBit) return(((HTONL(fullValue) & BITMASK(lowOrderBit, highOrderBit)) >> lowOrderBit));
 
 // undefine this for performance
 #if defined(ERROR_CHECKING)
@@ -88,53 +88,53 @@ inline bool isBigEndian(void)
 #define SET_REGISTER_ERROR_CHECKING(register_) \
   if (_address == NULL) \
   { \
-    printf("ERROR: device: %s, SET_REGISTER: address is NULL\n", _name); \
+    printf("ERROR: device: %s, REGISTER: address is NULL\n", _name); \
     return; \
   } \
   else if (register_ > _size) \
   { \
-    printf("ERROR: device: %s, SET_REGISTER: requested register: %d, exceeds memory mapped size: %d\n", _name, register_, _size); \
+    printf("ERROR: device: %s, REGISTER: requested register: %d, exceeds memory mapped size: %d\n", _name, register_, _size); \
     return; \
   }
 
 #define GET_REGISTER_ERROR_CHECKING(register_) \
   if (_address == NULL) \
   { \
-    printf("ERROR: device: %s, GET_REGISTER: address is NULL\n", _name); \
+    printf("ERROR: device: %s, REGISTER: address is NULL\n", _name); \
     return (0); \
   } \
   else if (register_ > _size) \
   { \
-    printf("ERROR: device: %s, GET_REGISTER: requested register: %d, exceeds memory mapped size: %d\n", _name, register_, _size); \
+    printf("ERROR: device: %s, REGISTER: requested register: %d, exceeds memory mapped size: %d\n", _name, register_, _size); \
     return (0); \
   }
 
-#define SET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_, value_) \
+#define SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_, value_) \
   if (value_ > MAX_BITFIELD_VALUE(lowOrderBit_, highOrderBit_)) \
   { \
-    printf("ERROR: device: %s, SET_BITFIELD: value: %d, exceeds max bitfield value: %d\n", _name, value_, MAX_BITFIELD_VALUE(lowOrderBit_, highOrderBit_)); \
+    printf("ERROR: BITFIELD: value: %d, exceeds max bitfield value: %d\n", value_, MAX_BITFIELD_VALUE(lowOrderBit_, highOrderBit_)); \
     return; \
   } \
   else if (lowOrderBit_ > highOrderBit_) \
   { \
-    printf("ERROR: device: %s, SET_BITFIELD: lowOrderBit: %d, is greater than highOrderBit: %d\n", _name, lowOrderBit_, highOrderBit_); \
+    printf("ERROR: BITFIELD: lowOrderBit: %d, is greater than highOrderBit: %d\n", lowOrderBit_, highOrderBit_); \
     return; \
   } \
-  else if (highOrderBit_ > (ADDRESS_WIDTH-1)) \
+  else if (highOrderBit_ > maxBit_) \
   { \
-    printf("ERROR: device: %s, SET_BITFIELD: highOrderBit: %d, exceeds max: %d, for %d-bit device\n", _name, highOrderBit_, (ADDRESS_WIDTH-1), ADDRESS_WIDTH); \
+    printf("ERROR: BITFIELD: highOrderBit: %d, exceeds range: 0-%d, for %d-bit value\n", highOrderBit_, maxBit_, (maxBit_+1)); \
     return; \
   }
 
-#define GET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_) \
+#define GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_) \
   if (lowOrderBit_ > highOrderBit_) \
   { \
-    printf("ERROR: device: %s, GET_BITFIELD: lowOrderBit: %d, is greater than highOrderBit: %d\n", _name, lowOrderBit_, highOrderBit_); \
+    printf("ERROR: BITFIELD: lowOrderBit: %d, is greater than highOrderBit: %d\n", lowOrderBit_, highOrderBit_); \
     return (0); \
   } \
-  else if (highOrderBit_ > (ADDRESS_WIDTH-1)) \
+  else if (highOrderBit_ > maxBit_-1) \
   { \
-    printf("ERROR: device: %s, GET_BITFIELD: highOrderBit: %d, exceeds max: %d, for %d-bit device\n", _name, highOrderBit_, (ADDRESS_WIDTH-1), ADDRESS_WIDTH); \
+    printf("ERROR: BITFIELD: highOrderBit: %d, exceeds range: 0-%d, for %d-bit value\n", highOrderBit_, maxBit_-1, maxBit_); \
     return (0); \
   }
 
@@ -143,47 +143,75 @@ inline bool isBigEndian(void)
 // dummy macros when compiling for performance
 #define SET_REGISTER_ERROR_CHECKING(register_)
 #define GET_REGISTER_ERROR_CHECKING(register_)
-#define SET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_, value_)
-#define GET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_)
+#define SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_, value_)
+#define GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_)
 
 #endif
 
+// thes macros are used by the MemoryMappedHardware classes and
+// assume a base memory mapped address of a given HW device
 #define SET_REGISTER_BITFIELD8(register_, lowOrderBit_, highOrderBit_, value_) \
   SET_REGISTER_ERROR_CHECKING(register_) \
-  SET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_, value_); \
-  SET_BITFIELD8(_address[register_], lowOrderBit_, highOrderBit_, value_);
+  SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 8, value_) \
+  SET_BITFIELD8(_address[register_], lowOrderBit_, highOrderBit_, value_)
 
 #define GET_REGISTER_BITFIELD8(register_, lowOrderBit_, highOrderBit_) \
   GET_REGISTER_ERROR_CHECKING(register_) \
-  GET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_); \
-  GET_BITFIELD8(_address[register_], lowOrderBit_, highOrderBit_);
+  GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 8) \
+  GET_BITFIELD8(_address[register_], lowOrderBit_, highOrderBit_)
 
 #define SET_REGISTER_BITFIELD16(register_, lowOrderBit_, highOrderBit_, value_) \
   SET_REGISTER_ERROR_CHECKING(register_) \
-  SET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_, value_); \
-  SET_BITFIELD16(_address[register_], lowOrderBit_, highOrderBit_, value_);
+  SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 16, value_) \
+  SET_BITFIELD16(_address[register_], lowOrderBit_, highOrderBit_, value_)
 
 #define GET_REGISTER_BITFIELD16(register_, lowOrderBit_, highOrderBit_) \
   GET_REGISTER_ERROR_CHECKING(register_) \
-  GET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_); \
-  GET_BITFIELD16(_address[register_], lowOrderBit_, highOrderBit_);
+  GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 16) \
+  GET_BITFIELD16(_address[register_], lowOrderBit_, highOrderBit_)
 
 #define SET_REGISTER_BITFIELD32(register_, lowOrderBit_, highOrderBit_, value_) \
   SET_REGISTER_ERROR_CHECKING(register_) \
-  SET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_, value_); \
-  SET_BITFIELD32(_address[register_], lowOrderBit_, highOrderBit_, value_);
+  SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 32, value_) \
+  SET_BITFIELD32(_address[register_], lowOrderBit_, highOrderBit_, value_)
 
 #define GET_REGISTER_BITFIELD32(register_, lowOrderBit_, highOrderBit_) \
   GET_REGISTER_ERROR_CHECKING(register_) \
-  GET_BITFIELD_ERROR_CHECKING(register_, lowOrderBit_, highOrderBit_); \
-  GET_BITFIELD32(_address[register_], lowOrderBit_, highOrderBit_);
+  GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 32) \
+  GET_BITFIELD32(_address[register_], lowOrderBit_, highOrderBit_)
 
 #define SET_REGISTER_VALUE(register_, value_) \
-  SET_REGISTER_ERROR_CHECKING(register_); \
+  SET_REGISTER_ERROR_CHECKING(register_) \
   _address[register_] = value_;
 
 #define GET_REGISTER_VALUE(register_) \
-  GET_REGISTER_ERROR_CHECKING(register_); \
+  GET_REGISTER_ERROR_CHECKING(register_) \
   return(_address[register_]);
+
+// thes macros are used by the BitBanger classes and use the passed in values as-is,
+// without assuming a base memory mapped address of a given HW device
+#define SET_VALUE_BITFIELD8(fullValue_, lowOrderBit_, highOrderBit_, bitfieldValue_) \
+  SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 8, bitfieldValue_) \
+  SET_BITFIELD8(fullValue_, lowOrderBit_, highOrderBit_, bitfieldValue_)
+
+#define GET_VALUE_BITFIELD8(fullValue_, lowOrderBit_, highOrderBit_) \
+  GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 8) \
+  GET_BITFIELD8(fullValue_, lowOrderBit_, highOrderBit_)
+
+#define SET_VALUE_BITFIELD16(fullValue_, lowOrderBit_, highOrderBit_, bitfieldValue_) \
+  SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 16, bitfieldValue_) \
+  SET_BITFIELD16(fullValue_, lowOrderBit_, highOrderBit_, bitfieldValue_)
+
+#define GET_VALUE_BITFIELD16(fullValue_, lowOrderBit_, highOrderBit_) \
+  GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 16) \
+  GET_BITFIELD16(fullValue_, lowOrderBit_, highOrderBit_)
+
+#define SET_VALUE_BITFIELD32(fullValue_, lowOrderBit_, highOrderBit_, bitfieldValue_) \
+  SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 32, bitfieldValue_) \
+  SET_BITFIELD32(fullValue_, lowOrderBit_, highOrderBit_, bitfieldValue_)
+
+#define GET_VALUE_BITFIELD32(fullValue_, lowOrderBit_, highOrderBit_) \
+  GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, 32) \
+  GET_BITFIELD32(fullValue_, lowOrderBit_, highOrderBit_)
 
 #endif

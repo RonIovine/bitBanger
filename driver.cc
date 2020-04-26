@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <BitBanger.h>
 #include <MemoryMappedHardware.h>
 #include <My8BitDevice.h>
 #include <My16BitDevice.h>
@@ -118,9 +119,20 @@ int main(int argc, char *argv[])
   unsigned highOrderBit = 0;
   unsigned bit = 0;
   unsigned value = 0;
+  uint8_t value8 = 0;
+  uint16_t value16 = 0;
+  uint32_t value32 = 0;
   uint8_t buffer8[MAX_MEMORY_MAPPED_SIZE] = {0};
   uint16_t buffer16[MAX_MEMORY_MAPPED_SIZE] = {0};
   uint32_t buffer32[MAX_MEMORY_MAPPED_SIZE] = {0};
+  printf("value8: 0x%02x, value16: 0x%04x, 0x%08x\n", value8, value16, value32);
+  BitBanger::setBitfield(value8, 0, 1, 3);
+  BitBanger::setBitfield(value16, 0, 1, 3);
+  BitBanger::setBitfield(value32, 0, 1, 3);
+  printf("value8: 0x%02x, value16: 0x%04x, value32: 0x%08x\n", value8, value16, value32);
+  printf("getValue8: %d, getValue16: %d, getValue32: %d\n", BitBanger::getBitfield(value8, 0, 1),
+                                                            BitBanger::getBitfield(value16, 0, 1),
+                                                            BitBanger::getBitfield(value32, 0, 1));
   showEndian();
   // test our derived class examples instantiations
   My8BitDevice my8BitDevice;
@@ -159,14 +171,14 @@ int main(int argc, char *argv[])
     scanf("%d", &value);
 
     // set register value and read it back for all 3 devices
-    device8.set(reg, (uint8_t)value);
-    printf("device8 register: %d, value: %d\n", reg, device8.get(reg));
+    device8.setRegister(reg, (uint8_t)value);
+    printf("device8 register: %d, value: %d\n", reg, device8.getRegister(reg));
 
-    device16.set(reg, (uint16_t)value);
-    printf("device16 register: %d, value: %d\n", reg, device16.get(reg));
+    device16.setRegister(reg, (uint16_t)value);
+    printf("device16 register: %d, value: %d\n", reg, device16.getRegister(reg));
 
-    device32.set(reg, (uint32_t)value);
-    printf("device32 register: %d, value: %d\n", reg, device32.get(reg));
+    device32.setRegister(reg, (uint32_t)value);
+    printf("device32 register: %d, value: %d\n", reg, device32.getRegister(reg));
 
     // test multi-bit bitfield set/get
     printf("\nenter register: ");
@@ -179,32 +191,14 @@ int main(int argc, char *argv[])
     scanf("%d", &value);
 
     // set bitfield value and read it back for all 3 devices
-    device8.set(reg, lowOrderBit, highOrderBit, (uint8_t)value);
-    printf("device8 register: %d, bitfield: %d-%d, value: %d\n", reg, lowOrderBit, highOrderBit, device8.get(reg, lowOrderBit, highOrderBit));
+    device8.setBitfield(reg, lowOrderBit, highOrderBit, (uint8_t)value);
+    printf("device8 register: %d, bitfield: %d-%d, value: %d\n", reg, lowOrderBit, highOrderBit, device8.getBitfield(reg, lowOrderBit, highOrderBit));
 
-    device16.set(reg, lowOrderBit, highOrderBit, (uint16_t)value);
-    printf("device16 register: %d, bitfield: %d-%d, value: %d\n", reg, lowOrderBit, highOrderBit, device16.get(reg, lowOrderBit, highOrderBit));
+    device16.setBitfield(reg, lowOrderBit, highOrderBit, (uint16_t)value);
+    printf("device16 register: %d, bitfield: %d-%d, value: %d\n", reg, lowOrderBit, highOrderBit, device16.getBitfield(reg, lowOrderBit, highOrderBit));
 
-    device32.set(reg, lowOrderBit, highOrderBit, (uint32_t)value);
-    printf("device32 register: %d, bitfield: %d-%d, value: %d\n", reg, lowOrderBit, highOrderBit, device32.get(reg, lowOrderBit, highOrderBit));
-
-    // test single bit bitfield set/get
-    printf("\nenter register: ");
-    scanf("%d", &reg);
-    printf("enter bit: ");
-    scanf("%d", &bit);
-    printf("enter value: ");
-    scanf("%d", &value);
-
-    // set bit value and read it back for all 3 devices
-    device8.set(reg, bit, (uint8_t)value);
-    printf("device8 register: %d, bit: %d, value: %d\n", reg, bit, device8.get(reg, bit));
-
-    device16.set(reg, bit, (uint16_t)value);
-    printf("device16 register: %d, bit: %d, value: %d\n", reg, bit, device16.get(reg, bit));
-
-    device32.set(reg, bit, (uint32_t)value);
-    printf("device32 register: %d, bit: %d, value: %d\n", reg, bit, device32.get(reg, bit));
+    device32.setBitfield(reg, lowOrderBit, highOrderBit, (uint32_t)value);
+    printf("device32 register: %d, bitfield: %d-%d, value: %d\n", reg, lowOrderBit, highOrderBit, device32.getBitfield(reg, lowOrderBit, highOrderBit));
 
   }
 }

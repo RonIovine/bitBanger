@@ -23,7 +23,6 @@ class My16BitDevice : public MemoryMappedHardware16
     };
 
     My16BitDevice() : MemoryMappedHardware16("My16BitDevice", ADDRESS, SIZE){};
-    ~My16BitDevice(){};
 
     // add any device specific higher functionality member functions here,
     // all the basic bit/register banging is provided by the base class
@@ -41,14 +40,12 @@ class My16BitDevice : public MemoryMappedHardware16
 // keep everything together for clarity and readability
 
 // format for register macro is just <regOffset>
-// format for single bit bitfield macro is <bitNum>, note: <lowOrderBit>,<highOrderBit> format would also work provided both values are the same
-// format for multi-bit bitfield macro is <lowOrderBit>,<highOrderBit>
+// format for bitfield macro is <lowOrderBit>,<highOrderBit>, use lob=hob for single bit bitfields
 
 // register offsets
 #define MY_16BIT_REG0  0
 // single bit bitfields for parent register
-#define MY_16BIT_REG0_BITFIELD1  0
-//#define MY_16BIT_REG0_BITFIELD1  0,0   // alternate format for single bit bitfield
+#define MY_16BIT_REG0_BITFIELD1  0,0
 // multi-bit bitfields for parent register
 #define MY_16BIT_REG0_BITFIELD2  1,2
 #define MY_16BIT_REG0_BITFIELD3  3,5
