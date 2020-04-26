@@ -1,5 +1,5 @@
-#ifndef MEMORY_MAPPED_HARDWARE_H
-#define MEMORY_MAPPED_HARDWARE_H
+#ifndef MEMORY_MAPPED_DEVICE_H
+#define MEMORY_MAPPED_DEVICE_H
 
 #include <BitfieldMacros.h>
 
@@ -18,15 +18,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // for 8-bit devices
-class MemoryMappedHardware8
+class MemoryMappedDevice8
 {
   public:
 
     // constructor for a RAM based buffer address pointer
-    MemoryMappedHardware8(const char *name_, void *address_, unsigned size_) : _address((uint8_t *)address_), _size(size_){strcpy(_name, name_);};
+    MemoryMappedDevice8(const char *name_, void *address_, unsigned size_) : _address((uint8_t *)address_), _size(size_){strcpy(_name, name_);};
 
     // constructor for a mapped HW address via a hardcoded address value
-    MemoryMappedHardware8(const char *name_, unsigned long address_, unsigned size_) : _address((uint8_t *)address_), _size(size_){strcpy(_name, name_);};
+    MemoryMappedDevice8(const char *name_, unsigned long address_, unsigned size_) : _address((uint8_t *)address_), _size(size_){strcpy(_name, name_);};
 
     // get/set whole register values
     void setRegister(unsigned register_, uint8_t value_){SET_REGISTER_VALUE(register_, value_);};
@@ -45,15 +45,15 @@ class MemoryMappedHardware8
 };
 
 // for 16-bit devices
-class MemoryMappedHardware16
+class MemoryMappedDevice16
 {
   public:
 
     // constructor for a RAM based buffer address pointer
-    MemoryMappedHardware16(const char *name_, void *address_, unsigned size_) : _address((uint16_t *)address_), _size(size_){strcpy(_name, name_);};
+    MemoryMappedDevice16(const char *name_, void *address_, unsigned size_) : _address((uint16_t *)address_), _size(size_){strcpy(_name, name_);};
 
     // constructor for a mapped HW address via a hardcoded address value
-    MemoryMappedHardware16(const char *name_, unsigned long address_, unsigned size_) : _address((uint16_t *)address_), _size(size_){strcpy(_name, name_);};
+    MemoryMappedDevice16(const char *name_, unsigned long address_, unsigned size_) : _address((uint16_t *)address_), _size(size_){strcpy(_name, name_);};
 
     // get/set whole register values
     void setRegister(unsigned register_, uint16_t value_){SET_REGISTER_VALUE(register_, value_);};
@@ -72,15 +72,15 @@ class MemoryMappedHardware16
 };
 
 // for 32-bit devices
-class MemoryMappedHardware32
+class MemoryMappedDevice32
 {
   public:
 
     // constructor for a RAM based buffer address pointer
-    MemoryMappedHardware32(const char *name_, void *address_, unsigned size_) : _address((uint32_t *)address_), _size(size_){strcpy(_name, name_);};
+    MemoryMappedDevice32(const char *name_, void *address_, unsigned size_) : _address((uint32_t *)address_), _size(size_){strcpy(_name, name_);};
 
     // constructor for a mapped HW address via a hardcoded address value
-    MemoryMappedHardware32(const char *name_, unsigned long address_, unsigned size_) : _address((uint32_t *)address_), _size(size_){strcpy(_name, name_);};
+    MemoryMappedDevice32(const char *name_, unsigned long address_, unsigned size_) : _address((uint32_t *)address_), _size(size_){strcpy(_name, name_);};
 
     // get/set whole register values
     void setRegister(unsigned register_, uint32_t value_){SET_REGISTER_VALUE(register_, value_);};

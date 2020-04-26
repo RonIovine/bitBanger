@@ -1,7 +1,7 @@
 #ifndef MY_8_BIT_DEVICE_H
 #define MY_8_BIT_DEVICE_H
 
-#include <MemoryMappedHardware.h>
+#include <MemoryMappedDevice.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -11,7 +11,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-class My8BitDevice : public MemoryMappedHardware8
+class My8BitDevice : public MemoryMappedDevice8
 {
   public:
 
@@ -22,7 +22,7 @@ class My8BitDevice : public MemoryMappedHardware8
       SIZE    = 8   // in 8-bit units
     };
 
-    My8BitDevice() : MemoryMappedHardware8("My8BitDevice", ADDRESS, SIZE){};
+    My8BitDevice() : MemoryMappedDevice8("My8BitDevice", ADDRESS, SIZE){};
 
     // add any device specific higher functionality member functions here,
     // all the basic bit/register banging is provided by the base class

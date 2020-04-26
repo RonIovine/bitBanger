@@ -1,7 +1,7 @@
 #ifndef MY_32_BIT_DEVICE_H
 #define MY_32_BIT_DEVICE_H
 
-#include <MemoryMappedHardware.h>
+#include <MemoryMappedDevice.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -11,7 +11,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-class My32BitDevice : public MemoryMappedHardware32
+class My32BitDevice : public MemoryMappedDevice32
 {
   public:
 
@@ -22,7 +22,7 @@ class My32BitDevice : public MemoryMappedHardware32
       SIZE    = 8   // in 32-bit units
     };
 
-    My32BitDevice() : MemoryMappedHardware32("My32BitDevice", ADDRESS, SIZE){};
+    My32BitDevice() : MemoryMappedDevice32("My32BitDevice", ADDRESS, SIZE){};
 
     // add any device specific higher functionality member functions here,
     // all the basic bit/register banging is provided by the base class

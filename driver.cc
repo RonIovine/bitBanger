@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <BitBanger.h>
-#include <MemoryMappedHardware.h>
+#include <MemoryMappedDevice.h>
 #include <My8BitDevice.h>
 #include <My16BitDevice.h>
 #include <My32BitDevice.h>
@@ -148,9 +148,9 @@ int main(int argc, char *argv[])
   //my32BitDevice.set(MY_32BIT_REG2, 4);
   //my32BitDevice.set(MY_32BIT_REG0, MY_32BIT_REG0_BITFIELD1, 2);
   // instantiate our base classes using RAM based buffers for our address space
-  MemoryMappedHardware8 device8("buffer8", buffer8, MAX_MEMORY_MAPPED_SIZE);
-  MemoryMappedHardware16 device16("buffer16", buffer16, MAX_MEMORY_MAPPED_SIZE);
-  MemoryMappedHardware32 device32("buffer32", buffer32, MAX_MEMORY_MAPPED_SIZE);
+  MemoryMappedDevice8 device8("buffer8", buffer8, MAX_MEMORY_MAPPED_SIZE);
+  MemoryMappedDevice16 device16("buffer16", buffer16, MAX_MEMORY_MAPPED_SIZE);
+  MemoryMappedDevice32 device32("buffer32", buffer32, MAX_MEMORY_MAPPED_SIZE);
   for (;;)
   {
 
