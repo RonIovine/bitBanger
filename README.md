@@ -13,7 +13,7 @@ based memory buffer.
 
 This package also contains a basic BitBanger.h static class that provides bit
 banging into passed in values, i.e. not accessed via a base memory mapped
-HW address.  This is useful for generic banging on values without providing
+HW address.  This is useful for generic banging of values without providing
 the underlying memory access.
 
 <a name="building"></a>
