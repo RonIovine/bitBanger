@@ -16,12 +16,13 @@
 
 // we force a big endian byte interpretation ourselves based on the compiler flag
 
+// big endian, no need to do any byte swapping
 #define HTONS(n) (n)
 #define NTOHS(n) (n)
 #define HTONL(n) (n)
 #define NTOHL(n) (n)
 
-// simple endianess checker
+// simple endianess checker, were forcing big endian at compile time, hardcode to return true
 inline bool isBigEndian(void)
 {
   return(true);
@@ -31,6 +32,7 @@ inline bool isBigEndian(void)
 
 // we force a little endian byte interpretation ourselves based on the compiler flag
 
+// little endian, swap bytes to put in bit endian order
 #define HTONS(n) (((((uint16_t)(n) & 0xFF)) << 8) | (((uint16_t)(n) & 0xFF00) >> 8))
 #define NTOHS(n) (((((uint16_t)(n) & 0xFF)) << 8) | (((uint16_t)(n) & 0xFF00) >> 8))
 
@@ -44,20 +46,13 @@ inline bool isBigEndian(void)
                   ((((uint32_t)(n) & 0xFF0000)) >> 8) | \
                   ((((uint32_t)(n) & 0xFF000000)) >> 24))
 
-// simple endianess checker
+// simple endianess checker, were forcing little endian at compile time, hardcode to return false
 inline bool isBigEndian(void)
 {
   return(false);
 }
 
 #else
-
-// simple endianess checker
-inline bool isBigEndian(void)
-{
-  static uint8_t endian[2] = {0,1};
-  return(*(uint16_t *)endian == 1);
-}
 
 // no compiler flag for byte order, let the system decide
 
@@ -66,6 +61,13 @@ inline bool isBigEndian(void)
 
 #define HTONL(n) htonl(n)
 #define NTOHL(n) ntohl(n)
+
+// simple endianess checker, we auto detect the endianess
+inline bool isBigEndian(void)
+{
+  static uint8_t endian[2] = {0,1};
+  return(*(uint16_t *)endian == 1);
+}
 
 #endif
 
@@ -109,7 +111,7 @@ inline bool isBigEndian(void)
     return (0); \
   }
 
-#define SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_, value_) \
+#define SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, numBits_, value_) \
   if (value_ > MAX_BITFIELD_VALUE(lowOrderBit_, highOrderBit_)) \
   { \
     printf("ERROR: BITFIELD: value: %d, exceeds max bitfield value: %d\n", value_, MAX_BITFIELD_VALUE(lowOrderBit_, highOrderBit_)); \
@@ -120,21 +122,21 @@ inline bool isBigEndian(void)
     printf("ERROR: BITFIELD: lowOrderBit: %d, is greater than highOrderBit: %d\n", lowOrderBit_, highOrderBit_); \
     return; \
   } \
-  else if (highOrderBit_ > maxBit_) \
+  else if (highOrderBit_ > (numBits_-1)) \
   { \
-    printf("ERROR: BITFIELD: highOrderBit: %d, exceeds range: 0-%d, for %d-bit value\n", highOrderBit_, maxBit_, (maxBit_+1)); \
+    printf("ERROR: BITFIELD: highOrderBit: %d, exceeds range: 0-%d, for %d-bit value\n", highOrderBit_, (numBits_-1), numBits_); \
     return; \
   }
 
-#define GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_) \
+#define GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, numBits_) \
   if (lowOrderBit_ > highOrderBit_) \
   { \
     printf("ERROR: BITFIELD: lowOrderBit: %d, is greater than highOrderBit: %d\n", lowOrderBit_, highOrderBit_); \
     return (0); \
   } \
-  else if (highOrderBit_ > maxBit_-1) \
+  else if (highOrderBit_ > (numBits_-1)) \
   { \
-    printf("ERROR: BITFIELD: highOrderBit: %d, exceeds range: 0-%d, for %d-bit value\n", highOrderBit_, maxBit_-1, maxBit_); \
+    printf("ERROR: BITFIELD: highOrderBit: %d, exceeds range: 0-%d, for %d-bit value\n", highOrderBit_, (numBits_-1), numBits_); \
     return (0); \
   }
 
@@ -143,8 +145,8 @@ inline bool isBigEndian(void)
 // dummy macros when compiling for performance
 #define SET_REGISTER_ERROR_CHECKING(register_)
 #define GET_REGISTER_ERROR_CHECKING(register_)
-#define SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_, value_)
-#define GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, maxBit_)
+#define SET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, numBits_, value_)
+#define GET_BITFIELD_ERROR_CHECKING(lowOrderBit_, highOrderBit_, numBits_)
 
 #endif
 
