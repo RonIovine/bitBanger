@@ -36,6 +36,9 @@ class MemoryMappedDevice8
     void setBitfield(unsigned register_, unsigned lowOrderBit_, unsigned highOrderBit_, uint8_t value_){SET_REGISTER_BITFIELD8(register_, lowOrderBit_, highOrderBit_, value_);};
     uint8_t getBitfield(unsigned register_, unsigned lowOrderBit_, unsigned highOrderBit_){GET_REGISTER_BITFIELD8(register_, lowOrderBit_, highOrderBit_);};
 
+    const char *getName(void){return (_name);};
+    unsigned getSize(void){return (_size);};
+
   private:
 
     volatile uint8_t *_address;
@@ -63,6 +66,9 @@ class MemoryMappedDevice16
     void setBitfield(unsigned register_, unsigned lowOrderBit_, unsigned highOrderBit_, uint16_t value_){SET_REGISTER_BITFIELD16(register_, lowOrderBit_, highOrderBit_, value_);};
     uint16_t getBitfield(unsigned register_, unsigned lowOrderBit_, unsigned highOrderBit_){GET_REGISTER_BITFIELD16(register_, lowOrderBit_, highOrderBit_);};
 
+    const char *getName(void){return (_name);};
+    unsigned getSize(void){return (_size);};
+
   private:
 
     volatile uint16_t *_address;
@@ -89,6 +95,9 @@ class MemoryMappedDevice32
     // get/set bitfield values
     void setBitfield(unsigned register_, unsigned lowOrderBit_, unsigned highOrderBit_, uint32_t value_){SET_REGISTER_BITFIELD32(register_, lowOrderBit_, highOrderBit_, value_);};
     uint32_t getBitfield(unsigned register_, unsigned lowOrderBit_, unsigned highOrderBit_){GET_REGISTER_BITFIELD32(register_, lowOrderBit_, highOrderBit_);};
+
+    const char *getName(void){return (_name);};
+    unsigned getSize(void){return (_size);};
 
   private:
 

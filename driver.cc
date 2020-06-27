@@ -141,16 +141,16 @@ int main(int argc, char *argv[])
   // the following are examples of calling the API, there is no actually memory HW at the
   // addresses in the derived classes, so if these lines are commented out a segment fault
   // will result, these are just for example only
-  //my8BitDevice.set(MY_8BIT_REG2, 4);
-  //my8BitDevice.set(MY_8BIT_REG0, MY_8BIT_REG0_BITFIELD1, 2);
-  //my16BitDevice.set(MY_16BIT_REG2, 4);
-  //my16BitDevice.set(MY_16BIT_REG0, MY_16BIT_REG0_BITFIELD1, 2);
-  //my32BitDevice.set(MY_32BIT_REG2, 4);
-  //my32BitDevice.set(MY_32BIT_REG0, MY_32BIT_REG0_BITFIELD1, 2);
+  //my8BitDevice.setRegister(MY_8BIT_REG2, 4);
+  //my8BitDevice.setBitfield(MY_8BIT_REG0, MY_8BIT_REG0_BITFIELD1, 2);
+  //my16BitDevice.setRegister(MY_16BIT_REG2, 4);
+  //my16BitDevice.setBitfield(MY_16BIT_REG0, MY_16BIT_REG0_BITFIELD1, 2);
+  //my32BitDevice.setRegister(MY_32BIT_REG2, 4);
+  //my32BitDevice.setBitfield(MY_32BIT_REG0, MY_32BIT_REG0_BITFIELD1, 2);
   // instantiate our base classes using RAM based buffers for our address space
-  MemoryMappedDevice8 device8("buffer8", buffer8, MAX_MEMORY_MAPPED_SIZE);
-  MemoryMappedDevice16 device16("buffer16", buffer16, MAX_MEMORY_MAPPED_SIZE);
-  MemoryMappedDevice32 device32("buffer32", buffer32, MAX_MEMORY_MAPPED_SIZE);
+  MemoryMappedDevice8 device8("device8", buffer8, MAX_MEMORY_MAPPED_SIZE);
+  MemoryMappedDevice16 device16("device16", buffer16, MAX_MEMORY_MAPPED_SIZE);
+  MemoryMappedDevice32 device32("device32", buffer32, MAX_MEMORY_MAPPED_SIZE);
   for (;;)
   {
 
