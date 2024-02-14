@@ -90,24 +90,24 @@ inline bool isBigEndian(void)
 #define SET_REGISTER_ERROR_CHECKING(register_) \
   if (_address == NULL) \
   { \
-    printf("ERROR: device: %s, REGISTER: address is NULL\n", _name); \
+    printf("ERROR: device: %s, REGISTER: address is NULL\n", getName()); \
     return; \
   } \
   else if (register_ > _size) \
   { \
-    printf("ERROR: device: %s, REGISTER: requested register: %d, exceeds memory mapped size: %d\n", _name, register_, _size); \
+    printf("ERROR: device: %s, REGISTER: requested register: %d, exceeds memory mapped size: %d\n", getName(), register_, _size); \
     return; \
   }
 
 #define GET_REGISTER_ERROR_CHECKING(register_) \
   if (_address == NULL) \
   { \
-    printf("ERROR: device: %s, REGISTER: address is NULL\n", _name); \
+    printf("ERROR: device: %s, REGISTER: address is NULL\n", getName()); \
     return (0); \
   } \
   else if (register_ > _size) \
   { \
-    printf("ERROR: device: %s, REGISTER: requested register: %d, exceeds memory mapped size: %d\n", _name, register_, _size); \
+    printf("ERROR: device: %s, REGISTER: requested register: %d, exceeds memory mapped size: %d\n", getName(), register_, _size); \
     return (0); \
   }
 
